@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type User struct {
+type Merchant struct {
 	Id               int            `json:"id" gorm:"primaryKey;index"`
 	Name             string         `json:"name" gorm:"not null"`
 	UserId           int            `json:"user_id" gorm:"not null;index"`

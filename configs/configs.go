@@ -2,6 +2,7 @@ package configs
 
 import (
 	"fmt"
+	"pos/models/products"
 	"pos/models/users"
 
 	"gorm.io/driver/mysql"
@@ -49,4 +50,5 @@ func InitDB() {
 
 func Migration() {
 	DB.AutoMigrate(&users.User{})
+	DB.AutoMigrate(&products.Product{})
 }
