@@ -8,9 +8,9 @@ type UserLogin struct {
 type UserCreate struct {
 	Name     string `json:"name" validate:"required,min=2"`
 	Address  string `json:"address" validate:"required"`
-	Phone    string `json:"phone" gorm:"not null"`
-	Email    string `json:"email" gorm:"not null"`
-	Password string `json:"password" gorm:"not null"`
+	Phone    string `json:"phone" validate:"required" gorm:"not null"`
+	Email    string `json:"email" validate:"required,email" gorm:"not null" `
+	Password string `json:"password" validate:"required" gorm:"not null"`
 	Remark   string `json:"remark"`
 }
 

@@ -12,8 +12,10 @@ func RegisterUser(usersCreate users.UserCreate) (users.User, error) {
 
 	userDB.Name = usersCreate.Name
 	userDB.Address = usersCreate.Address
+	userDB.Phone = usersCreate.Phone
 	userDB.Email = usersCreate.Email
 	userDB.Password = hash
+	userDB.Remark = usersCreate.Remark
 
 	err := configs.DB.Create(&userDB).Error
 	if err != nil {

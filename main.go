@@ -2,11 +2,11 @@ package main
 
 import (
 	"pos/configs"
-	// "pos/routes"
+	"pos/routes"
 )
 
 func main() {
 	configs.InitDB()
-	// e := routes.New()
-	// e.Start(":8000")
+	e := routes.New()
+	e.Start(":8000")
 }

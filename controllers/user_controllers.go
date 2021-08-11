@@ -7,6 +7,7 @@ import (
 	"pos/models/users"
 	"pos/validations"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -25,13 +26,32 @@ func RegisterControllers(c echo.Context) error {
 	userDB, err := database.RegisterUser(usersCreate)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		if strings.Contains(err.Error(), "Error 1062") {
+			return c.JSON(http.StatusBadRequest, BaseResponse(
+				http.StatusBadRequest,
+				"Register Error",
+				"Email Already Used!",
+			))
+		} else {
+			return c.JSON(http.StatusInternalServerError, BaseResponse(
+				http.StatusInternalServerError,
+				"Register Error",
+				err.Error(),
+			))
+		}
+
+	}
+
+	var res = users.UserResponse{
+		Id:    userDB.Id,
+		Name:  userDB.Name,
+		Email: userDB.Email,
 	}
 
 	return c.JSON(http.StatusCreated, BaseResponse(
 		http.StatusCreated,
 		"Success Register User",
-		userDB,
+		res,
 	))
 }
 
@@ -42,9 +62,9 @@ func LoginControllers(c echo.Context) error {
 
 	userDB, e := database.LoginUser(userLogin)
 	if e != nil {
-		return c.JSON(http.StatusInternalServerError, BaseResponse(
-			http.StatusInternalServerError,
-			"Failed Get Data",
+		return c.JSON(http.StatusBadRequest, BaseResponse(
+			http.StatusBadRequest,
+			"Login Error, Wrong Email or Password",
 			nil,
 		))
 	}
