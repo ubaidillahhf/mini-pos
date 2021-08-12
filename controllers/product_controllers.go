@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -49,8 +48,6 @@ func UploadImage(c echo.Context) (res string, err error) {
 func CreateProductControllers(c echo.Context) error {
 
 	pathImage, _ := UploadImage(c)
-
-	fmt.Println("destination =>", pathImage)
 
 	var productCreate products.ProductPost
 	merchant_id, _ := strconv.Atoi(c.FormValue("merchant_id"))
@@ -125,9 +122,19 @@ func GetProductControllers(c echo.Context) error {
 func EditProductControllers(c echo.Context) error {
 
 	paramsProductId := c.Param("productId")
-	categoryId, _ := strconv.Atoi(paramsProductId)
+	productId, _ := strconv.Atoi(paramsProductId)
+
+	pathImage, _ := UploadImage(c)
+
 	var productEditDate products.ProductPost
-	c.Bind(&productEditDate)
+	merchant_id, _ := strconv.Atoi(c.FormValue("merchant_id"))
+
+	productEditDate.Name = c.FormValue("name")
+	productEditDate.MerchantId = merchant_id
+	productEditDate.Sku = c.FormValue("sku")
+	productEditDate.Remark = c.FormValue("remark")
+	productEditDate.Description = c.FormValue("description")
+	productEditDate.Image = pathImage
 
 	// Validasi Field
 	errorValidate := validations.Validate(productEditDate)
@@ -135,7 +142,7 @@ func EditProductControllers(c echo.Context) error {
 		return errorValidate
 	}
 
-	userEdit, err := database.EditProduct(productEditDate, categoryId)
+	userEdit, err := database.EditProduct(productEditDate, productId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

@@ -45,6 +45,7 @@ func EditProduct(productEdit products.ProductPost, productId int) (products.Prod
 	err := configs.DB.First(&productDB, productId).Error
 
 	productDB.Name = productEdit.Name
+	productDB.Image = productEdit.Image
 	productDB.MerchantId = productEdit.MerchantId
 	productDB.Sku = productEdit.Sku
 	productDB.Remark = productEdit.Remark
