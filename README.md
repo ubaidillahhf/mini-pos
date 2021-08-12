@@ -15,7 +15,7 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Issues][issues-shield]](https://img.shields.io/github/issues/ubaidillahhf/mini-pos)
-[![Contributors](https://img.shields.io/badge/contributors-2-green)](https://github.com/ubaidillahhf/mini-pos/graphs/contributors)
+[![Contributors](https://img.shields.io/badge/contributors-1-green)](https://github.com/ubaidillahhf/mini-pos/graphs/contributors)
 [![MIT License][license-shield]](https://github.com/ubaidillahhf/mini-pos/blob/master/license.txt)
 [![LinkedIn][linkedin-shield]](https://linkedin.com/in/ubaidillahhf)
 
