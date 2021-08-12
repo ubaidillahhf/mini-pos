@@ -27,5 +27,12 @@ func New() *echo.Echo {
 	eAuth.PUT("/api/v1/users", controllers.EditUserControllers)
 	eAuth.DELETE("/api/v1/users", controllers.DeleteUserControllers)
 
+	/** FEATURE PRODUCTS */
+	eAuth.POST("/api/v1/product", controllers.CreateProductControllers)
+	eAuth.GET("/api/v1/product", controllers.GetProductControllers)
+	eAuth.GET("/api/v1/product/:productId", controllers.DetailProductControllers)
+	eAuth.PUT("/api/v1/product/:productId", controllers.EditProductControllers)
+	eAuth.DELETE("/api/v1/product/:productId", controllers.DeleteProductControllers)
+
 	return e
 }

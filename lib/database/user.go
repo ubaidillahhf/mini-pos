@@ -25,7 +25,7 @@ func RegisterUser(usersCreate users.UserCreate) (users.User, error) {
 }
 
 func GetDataUserAll() (dataResult []users.User, err error) {
-	err = configs.DB.Find(&dataResult).Error
+	err = configs.DB.Select("id", "name", "address", "phone", "email", "remark", "created_at", "updated_at", "deleted_at").Find(&dataResult).Error
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +73,10 @@ func EditUser(userEdit users.UserEdit, userId int) (users.User, error) {
 
 	userDB.Name = userEdit.Name
 	userDB.Address = userEdit.Address
+	userDB.Phone = userEdit.Phone
 	userDB.Email = userEdit.Email
 	userDB.Password = hash
+	userDB.Remark = userEdit.Remark
 
 	configs.DB.Save(&userDB)
 

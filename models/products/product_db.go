@@ -11,6 +11,7 @@ type Product struct {
 	MerchantId  int            `json:"merchant_id" gorm:"not null;index"`
 	Sku         string         `json:"sku" gorm:"not null"`
 	Name        string         `json:"name" gorm:"not null"`
+	Image       string         `json:"image"`
 	Remark      string         `json:"remark"`
 	Description string         `json:"description"`
 	CreatedAt   time.Time      `json:"createdAt"`

@@ -71,7 +71,7 @@ func LoginControllers(c echo.Context) error {
 
 	token, _ := middlewares.GenerateTokenJWT(userDB.Id)
 
-	var userResponse = users.UserResponse{
+	var res = users.UserResponse{
 		Id:    userDB.Id,
 		Name:  userDB.Name,
 		Email: userDB.Name,
@@ -80,14 +80,13 @@ func LoginControllers(c echo.Context) error {
 	return c.JSON(http.StatusOK, BaseResponse(
 		http.StatusOK,
 		"Success Get Data",
-		userResponse,
+		res,
 	))
 
 }
 
 func DetailUserControllers(c echo.Context) error {
-	// userId := middlewares.GetUserIdFromJWT(c)
-	userId := 1
+	userId := middlewares.GetUserIdFromJWT(c)
 
 	userDB, e := database.GetUserDetail(userId)
 	paramsUserId := c.Param("userId")
@@ -107,10 +106,19 @@ func DetailUserControllers(c echo.Context) error {
 			nil,
 		))
 	}
+
+	var res = users.UserDetailResponse{
+		Id:      userDB.Id,
+		Name:    userDB.Name,
+		Address: userDB.Address,
+		Email:   userDB.Email,
+		Phone:   userDB.Phone,
+	}
+
 	return c.JSON(http.StatusOK, BaseResponse(
 		http.StatusOK,
 		"Success Get Data UserId",
-		userDB,
+		res,
 	))
 }
 
@@ -149,7 +157,11 @@ func EditUserControllers(c echo.Context) error {
 
 	confirmedUser, _ := database.CheckHashPassword(userEditData.ConfirmPassword, userId)
 	if !confirmedUser {
-		return c.JSON(http.StatusUnauthorized, "Password Konfirmasi Salah")
+		return c.JSON(http.StatusBadRequest, BaseResponse(
+			http.StatusBadRequest,
+			"Password Konfirmasi Salah",
+			nil,
+		))
 	}
 
 	userEdit, err := database.EditUser(userEditData, userId)
@@ -157,10 +169,18 @@ func EditUserControllers(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
+	var res = users.UserDetailResponse{
+		Id:      userEdit.Id,
+		Name:    userEdit.Name,
+		Address: userEdit.Address,
+		Email:   userEdit.Email,
+		Phone:   userEdit.Phone,
+	}
+
 	return c.JSON(http.StatusOK, BaseResponse(
 		http.StatusOK,
 		"Success Edit Data User",
-		userEdit,
+		res,
 	))
 }
 
